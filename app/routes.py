@@ -35,5 +35,5 @@ def pokedex():
             "defense": data['stats'][0]['base_stat'],
             }
 
-        return render_template('pokedex.html.j2', pokemon = pokemon_dict, form=form) #-- not working ???
+        return render_template('pokedex.html.j2', pokemon = pokemon_dict, form=form)
     return render_template('pokedex.html.j2', form=form)
