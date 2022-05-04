@@ -13,19 +13,17 @@ def index():
 def pokedex():
     form = PokedexForm()
     if request.method == 'POST' and form.validate_on_submit():
-        pokemon_name = form.pokemon_name.lower()
-
-        pokemon_name = request.form.get('pokemon_name')
+        pokemon_name = form.pokemon_name.data.lower()
 
         url = f'https://pokeapi.co/api/v2/pokemon/{pokemon_name}'.lower()
         response = requests.get(url)
         if not response.ok:
             error_string = "Invalid Pokemon name"
-            return render_template('pokedex.html.j2', error = error_string)
+            return render_template('pokedex.html.j2', error = error_string, form=form)
         data = response.json()
         if not response.json():
             error_string = "We had an error"
-            return render_template('pokedex.html.j2', error = error_string)
+            return render_template('pokedex.html.j2', error = error_string, form=form)
 
         pokemon_dict = {
             "name": data['name'],
@@ -37,4 +35,5 @@ def pokedex():
             "defense": data['stats'][0]['base_stat'],
             }
 
-    return render_template('pokedex.html.j2')# ,pokemon = pokemon_dict) -- not working ???
+        return render_template('pokedex.html.j2', pokemon = pokemon_dict, form=form) #-- not working ???
+    return render_template('pokedex.html.j2', form=form)
