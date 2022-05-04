@@ -1,24 +1,27 @@
 {% extends 'base.html.j2' %}
 {% block title %}
-    Your Pokédex
+    Pokédex
 {% endblock %}
 
 {% block content %}
 
     <h1>Pokédex</h1>
-    <form action="/pokedex", method="POST">
+    <form action="{{url_for('pokedex')}}", method="POST">
+       {{form.hidden_tag()}}
        <div>
-       {{ form.pokemon_name.label() }}
-       {{ form.pokemon_name}}
-       {% for error in form.pokemon_name.erros%}
+       {{ form.pokemon_name.label(class="form-label") }}
+       {{ form.pokemon_name(class="form-control")}}
+       {% for error in form.pokemon_name.errors%}
         <small style="color:red"> {{ error }}</small>
        {% endfor%}
        </div>
        <br />
        <div>
-       {{ form.submit() }}
+       {{ form.submit(class="btn btn-danger") }}
+       <hr />
        </div>
     </form>
+    {% if pokemon %}
     <table class="table table-striped table-hover table-danger">
   <thead>
     <tr>
@@ -31,7 +34,7 @@
       <th scope="col">Defense</th>
     </tr>
   </thead>
-  {# <tbody>
+  <tbody>
     <tr>
       <th scope="row">{{ pokemon.name }}</th>
       <td>{{ pokemon.bexp }}</td>
@@ -41,7 +44,8 @@
       <td>{{ pokemon.attack }}</td>
       <td>{{ pokemon.defense }}</td>
     </tr> 
-  </tbody> #}
+  </tbody>
 </table>
+{% endif %}
 
 {% endblock %}
