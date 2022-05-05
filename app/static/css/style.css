@@ -1,3 +1,10 @@
 .container {
     margin-top:25px;
+    padding: 20px;
+    border: solid black 1px;
 }
+
+#footer {
+    text-align: center;
+}
+
