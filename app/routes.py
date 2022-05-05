@@ -1,13 +1,53 @@
-from flask import render_template, request
+from flask import render_template, request, flash, url_for, redirect
 import requests
-from .forms import PokedexForm
+from .forms import PokedexForm, LoginForm, RegisterForm
 from app import app
+from .models import User
 
 
 
 @app.route('/', methods = ['GET'])
 def index():
     return render_template('index.html.j2')
+
+@app.route('/login', methods = ['GET'])
+def login():
+    form = LoginForm()
+    if request.method=='POST' and form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        trainer=User.query.filter_by(username=username).first()
+        if trainer and trainer.checked_hashed_password(password):
+            login_user(trainer)
+            flash('Welcome back Trainer!')
+            return redirect(url_for('index'))
+        flash("Doesn't look like you typed that in right.", 'danger')
+        return render_template('login.html.j2', form=form)
+    return render_template('login.html.j2', form=form)
+
+@app.route('/register', methods = ['GET'])
+def register():
+    form = RegisterForm()
+    if request.method=='POST' and form.validate_on_submit():
+        try:
+            new_user_data = {
+                "first_name": form.first_name.data.title(),
+                "last_name": form.last_name.data.title(),
+                "username": form.username.data,
+                "email": form.email.data,
+                "password": form.password.data
+                
+            }
+
+            new_user_object = User()
+            new_user_object.form_dict(new_user_data)
+            new_user_object.save()
+        except:
+            flash("Whoops! Looks like there was an unexpected error on our end. Please try again later!", 'danger')
+            return render_template('register.html.j2')
+        flash("Welcome back, Trainer!", 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html.j2', form=form)
 
 @app.route('/pokedex', methods = ['GET', 'POST'])
 def pokedex():

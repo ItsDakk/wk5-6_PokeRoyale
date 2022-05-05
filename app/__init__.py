@@ -12,14 +12,14 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-# Register plug-ins
+# # Register plug-ins
 login = LoginManager(app)
 
-# Configure settings
+# # Configure settings
 login.login_view = 'login'
 login.login_message = 'Please login, Pokemon Trainer!'
 login.login_message_catergory='warning'
 
 
 
-from app import routes, models 
+from app import routes#, models 
