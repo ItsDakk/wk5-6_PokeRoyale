@@ -18,7 +18,7 @@ def create_app(config_class = Config):
 
     # Configure settings
     login.login_view = 'auth.login'
-    login.login_message = 'Please login, Pokemon Trainer!'
+    login.login_message = 'Please login, Trainer!'
     login.login_message_catergory='warning'
 
     from .blueprints.main import bp as main_bp

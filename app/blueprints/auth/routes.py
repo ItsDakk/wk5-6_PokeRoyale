@@ -4,7 +4,7 @@ from . import bp as auth
 from app.models import User
 from flask_login import current_user, logout_user, login_user #login_required
 
-@auth.route('/login', methods = ['GET'])
+@auth.route('/login', methods = ['GET', 'POST'])
 def login():
     form = LoginForm()
     if request.method =='POST' and form.validate_on_submit():
@@ -19,7 +19,7 @@ def login():
         return render_template('login.html.j2', form = form)
     return render_template('login.html.j2', form = form)
 
-@auth.route('/register', methods = ['GET'])
+@auth.route('/register', methods = ['GET', 'POST'])
 def register():
     form = RegisterForm()
     if request.method =='POST' and form.validate_on_submit():
@@ -33,12 +33,12 @@ def register():
             }
 
             new_user_object = User()
-            new_user_object.form_dict(new_user_data)
+            new_user_object.from_dict(new_user_data)
             new_user_object.save()
         except:
             flash("Whoops! Looks like there was an unexpected error on our end. Please try again later!", 'danger')
-            return render_template('register.html.j2')
-        flash("Welcome back, Trainer!", 'success')
+            return render_template('register.html.j2', form = form)
+        flash("Welcome, Trainer!", 'success')
         return redirect(url_for('auth.login'))
     return render_template('register.html.j2', form = form)
 
@@ -57,10 +57,11 @@ def edit_prof():
         user = User.query.filter_by(username = new_user_data['username']).first()
         if user and user.username != current_user.username:
             flash ('Username is already in use', 'danger')
-            return render_template('edit_prof.html.j2')
+            return redirect(url_for('auth.edit_prof'))
         try:
             current_user.from_dict(new_user_data)
             current_user.save()
+            flash('Profile Successfully Updated', 'success')
         except:
             flash('There seems to have been an unexpected error. Please try again', 'danger')
             return redirect(url_for('auth.edit_profile'))
@@ -73,4 +74,4 @@ def logout():
     if current_user:
         logout_user()
         flash('You have logged out', 'warning')
-        return redirect(url_for('main.login'))
+        return redirect(url_for('auth.login'))
