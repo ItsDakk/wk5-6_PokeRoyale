@@ -20,10 +20,11 @@
 <div class="collapse" id="navbarToggleExternalContent">
   <div class="bg-warning p-4">
     <h5 class="text-white h4">PokéRoyale!</h5>
-    <a class="nav-link" aria-current="page" href="{{url_for('index')}}">Home</a>
-    <a class="nav-link" href="{{url_for('pokedex')}}">Pokédex</a>
-    <a class="nav-link" href="{{url_for('login')}}">Login</a>
-    <a class="nav-link" href="{{url_for('register')}}">Register</a>
+    <a class="nav-link" aria-current="page" href="{{url_for('main.index')}}">Home</a>
+    <a class="nav-link" href="{{url_for('main.pokedex')}}">Pokédex</a>
+    <a class="nav-link" href="{{url_for('main.poketeam')}}">PokéTeam</a>
+    <a class="nav-link" href="{{url_for('auth.login')}}">Login</a>
+    <a class="nav-link" href="{{url_for('auth.register')}}">Register</a>
   </div>
 </div>
 <nav class="navbar navbar-dark bg-danger">
@@ -33,3 +34,4 @@
     </button>
   </div>
 </nav>
+
