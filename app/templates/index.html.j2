@@ -2,9 +2,11 @@
 {% block title %}
     Main
 {% endblock %}
-
 {% block content %}
+  <div class="container">
   <h1>Welcome to the PokéRoyale!</h1>
+  </div>
+  <img src="{{url_for('static', filename='images/pokemain.jpg')}}",class="img-fluid", width=100%vw> 
 {% endblock %}
 
 

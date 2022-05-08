@@ -33,7 +33,8 @@ class User(UserMixin, db.Model):
 
     def save(self):
         db.session.add(self)
-        db.session.commit()
+        db.session.commit() 
+        
 
 @login.user_loader
 def load_user(id):

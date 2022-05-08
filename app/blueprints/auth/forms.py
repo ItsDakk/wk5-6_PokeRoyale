@@ -1,15 +1,17 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, StringField, PasswordField
+from wtforms import SubmitField, StringField, PasswordField, RadioField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from app.models import User
+import random
+from jinja2.utils import markupsafe
 
 class PokedexForm(FlaskForm):
     pokemon_name = StringField('Pokemon Name', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 class LoginForm(FlaskForm):
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name', validators=[DataRequired()])
+    first_name = StringField('First Name')
+    last_name = StringField('Last Name')
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Submit')
@@ -30,7 +32,14 @@ class RegisterForm(FlaskForm):
         if same_username_user:
             raise ValidationError('Username is Taken')
 
-    # Come back to add avatars!!
+    ash1 = 1
+
+
+    ash1_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/ash-johto.png" height="80px">')
+
+    icon = RadioField('Avatar', validators=[DataRequired()],
+        choices=[(ash1, ash1_img)]
+    )
 
     
 class EditProfileForm(FlaskForm):

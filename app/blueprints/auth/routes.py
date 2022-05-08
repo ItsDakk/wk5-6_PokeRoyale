@@ -3,6 +3,7 @@ from . forms import EditProfileForm, LoginForm, RegisterForm
 from . import bp as auth
 from app.models import User
 from flask_login import current_user, logout_user, login_user #login_required
+from werkzeug.security import check_password_hash
 
 @auth.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -11,9 +12,9 @@ def login():
         username = form.username.data
         password = form.password.data
         trainer = User.query.filter_by(username=username).first()
-        if trainer and trainer.checked_hashed_password(password):
+        if trainer and check_password_hash(trainer.password, password):
             login_user(trainer)
-            flash('Welcome back Trainer!')
+            flash('Welcome back, Trainer!', 'success')
             return redirect(url_for('main.index'))
         flash("Doesn't look like you typed that in right.", 'danger')
         return render_template('login.html.j2', form = form)
@@ -23,6 +24,7 @@ def login():
 def register():
     form = RegisterForm()
     if request.method =='POST' and form.validate_on_submit():
+        print('TEst')
         try:
             new_user_data = {
                 "first_name": form.first_name.data.title(),
@@ -33,8 +35,10 @@ def register():
             }
 
             new_user_object = User()
+            print(new_user_object)
             new_user_object.from_dict(new_user_data)
             new_user_object.save()
+            print(new_user_object)
         except:
             flash("Whoops! Looks like there was an unexpected error on our end. Please try again later!", 'danger')
             return render_template('register.html.j2', form = form)
