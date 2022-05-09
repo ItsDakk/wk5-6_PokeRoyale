@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String, unique=True, index=True)
     password = db.Column(db.String)
     trainer_since = db.Column(db.DateTime, default=dt.utcnow)
+    icon = db.Column(db.String)
 
     def __repr__(self):
         return f'<User: {self.username} | {self.id} >'    
@@ -30,10 +31,14 @@ class User(UserMixin, db.Model):
         self.email = data['email']
         self.username = data['username']
         self.password = self.hash_password(data['password'])
+        self.icon = data['icon']
 
     def save(self):
         db.session.add(self)
         db.session.commit() 
+
+    def get_icon_url(self):
+        return f"{self.icon}"
         
 
 @login.user_loader

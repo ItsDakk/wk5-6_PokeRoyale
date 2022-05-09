@@ -2,7 +2,7 @@ from flask import render_template, request, flash, url_for, redirect
 from . forms import EditProfileForm, LoginForm, RegisterForm
 from . import bp as auth
 from app.models import User
-from flask_login import current_user, logout_user, login_user #login_required
+from flask_login import current_user, logout_user, login_user, login_required
 from werkzeug.security import check_password_hash
 
 @auth.route('/login', methods = ['GET', 'POST'])
@@ -31,18 +31,18 @@ def register():
                 "last_name": form.last_name.data.title(),
                 "username": form.username.data,
                 "email": form.email.data,
-                "password": form.password.data
+                "password": form.password.data,
+                "icon": form.icon.data
             }
 
             new_user_object = User()
-            print(new_user_object)
             new_user_object.from_dict(new_user_data)
             new_user_object.save()
-            print(new_user_object)
+            
         except:
             flash("Whoops! Looks like there was an unexpected error on our end. Please try again later!", 'danger')
             return render_template('register.html.j2', form = form)
-        flash("Welcome, Trainer!", 'success')
+        flash(f"Welcome, Trainer!", 'success')
         return redirect(url_for('auth.login'))
     return render_template('register.html.j2', form = form)
 
@@ -69,11 +69,11 @@ def edit_prof():
         except:
             flash('There seems to have been an unexpected error. Please try again', 'danger')
             return redirect(url_for('auth.edit_profile'))
-        return redirect(url_for('main.index.html.j2'))
+        return redirect(url_for('main.index'))
     return render_template('register.html.j2', form = form)
 
 @auth.route('/logout')
-# @login_required
+@login_required
 def logout():
     if current_user:
         logout_user()

@@ -2,12 +2,21 @@
 {% block title %}
     Main
 {% endblock %}
+
 {% block content %}
-  <div class="container">
-  <h1>Welcome to the PokéRoyale!</h1>
+  <section class="bg-dark text-white p-5 text-center">
+    <div class="container">
+      <div class="d-flex flex-column">
+          <div class="p-4"><h1>Welcome to the <span class="text-warning">PokéRoyale!</span></h1></div>
+          <div class="p-4"><p class="lead">Hello there, Trainer! This is the PokéRoyale homepage. From here you can 
+          look up your <span class="text-warning">Pokédex</span>, <span class="text-warning">PokéTeam</span>, or <span class="text-warning">Edit Profile</span> 
+          all from the menu in the top-left corner. Once you have your PokéTeam ready, you can battle other users!</p></div>
+          </div> 
+        </div>
+      </div>
+  </section>
+  <div class="container align-items-center">
+  <img class="img-fluid w-25" src="{{ url_for('static', filename='images/Pikachu.png') }}">
   </div>
-  <img src="{{url_for('static', filename='images/pokemain.jpg')}}",class="img-fluid", width=100%vw> 
 {% endblock %}
-
-
 

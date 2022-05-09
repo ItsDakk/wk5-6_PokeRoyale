@@ -32,17 +32,25 @@ class RegisterForm(FlaskForm):
         if same_username_user:
             raise ValidationError('Username is Taken')
 
+    r1 = "https://play.pokemonshowdown.com/sprites/trainers/ash-johto.png"
+    r2 = "https://play.pokemonshowdown.com/sprites/trainers/ash-capbackward.png"
+    r3 = "https://play.pokemonshowdown.com/sprites/trainers/brock-gen3.png"
+    r4 = "https://play.pokemonshowdown.com/sprites/trainers/brock.png"
+    r5 = "https://play.pokemonshowdown.com/sprites/trainers/misty.png"
+    r6 = "https://play.pokemonshowdown.com/sprites/trainers/misty-gen1.png"
+    r7 = "https://play.pokemonshowdown.com/sprites/trainers/teamrocket.png"
+
     
-    ash_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/ash-johto.png" height="80px">')
-    ash1_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/ash-capbackward.png" height="80px">')
-    brock_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/brock-gen3.png" height="80px">')
-    brock1_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/brock.png" height="80px">')
-    misty_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/misty.png" height="80px">')
-    misty1_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/misty-gen1.png" height="80px">')
-    tr_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/teamrocket.png" height="80px">')
+    ash_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/ash-johto.png" height="75px">')
+    ash1_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/ash-capbackward.png" height="75px">')
+    brock_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/brock-gen3.png" height="75px">')
+    brock1_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/brock.png" height="75px">')
+    misty_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/misty.png" height="75px">')
+    misty1_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/misty-gen1.png" height="75px">')
+    tr_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/teamrocket.png" height="75px">')
 
     icon = RadioField('Avatar', validators=[DataRequired()],
-        choices=[(ash_img), (ash1_img), (brock_img), (brock1_img), (misty_img), (misty1_img), (tr_img),   ]
+        choices=[(r1, ash_img), (r2, ash1_img), (r3, brock_img), (r4, brock1_img), (r5, misty_img), (r6, misty1_img), (r7, tr_img),   ]
     )
 
     
@@ -56,4 +64,23 @@ class EditProfileForm(FlaskForm):
             validators=[DataRequired(), EqualTo('password', message='Password Must Match' )])
     submit = SubmitField('Register')
 
-    # Come back to edit avatars!!
+    r1 = "https://play.pokemonshowdown.com/sprites/trainers/ash-johto.png"
+    r2 = "https://play.pokemonshowdown.com/sprites/trainers/ash-capbackward.png"
+    r3 = "https://play.pokemonshowdown.com/sprites/trainers/brock-gen3.png"
+    r4 = "https://play.pokemonshowdown.com/sprites/trainers/brock.png"
+    r5 = "https://play.pokemonshowdown.com/sprites/trainers/misty.png"
+    r6 = "https://play.pokemonshowdown.com/sprites/trainers/misty-gen1.png"
+    r7 = "https://play.pokemonshowdown.com/sprites/trainers/teamrocket.png"
+
+
+    ash_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/ash-johto.png" height="75px">')
+    ash1_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/ash-capbackward.png" height="75px">')
+    brock_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/brock-gen3.png" height="75px">')
+    brock1_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/brock.png" height="75px">')
+    misty_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/misty.png" height="75px">')
+    misty1_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/misty-gen1.png" height="75px">')
+    tr_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/teamrocket.png" height="75px">')
+
+    icon = RadioField('Avatar', validators=[DataRequired()],
+        choices=[(r1, ash_img), (r2, ash1_img), (r3, brock_img), (r4, brock1_img), (r5, misty_img), (r6, misty1_img), (r7, tr_img),   ]
+    )
