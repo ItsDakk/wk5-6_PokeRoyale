@@ -32,13 +32,17 @@ class RegisterForm(FlaskForm):
         if same_username_user:
             raise ValidationError('Username is Taken')
 
-    ash1 = 1
-
-
-    ash1_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/ash-johto.png" height="80px">')
+    
+    ash_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/ash-johto.png" height="80px">')
+    ash1_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/ash-capbackward.png" height="80px">')
+    brock_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/brock-gen3.png" height="80px">')
+    brock1_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/brock.png" height="80px">')
+    misty_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/misty.png" height="80px">')
+    misty1_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/misty-gen1.png" height="80px">')
+    tr_img = markupsafe.Markup(f'<img src="https://play.pokemonshowdown.com/sprites/trainers/teamrocket.png" height="80px">')
 
     icon = RadioField('Avatar', validators=[DataRequired()],
-        choices=[(ash1, ash1_img)]
+        choices=[(ash_img), (ash1_img), (brock_img), (brock1_img), (misty_img), (misty1_img), (tr_img),   ]
     )
 
     

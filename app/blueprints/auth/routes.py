@@ -55,8 +55,8 @@ def edit_prof():
                 "last_name": form.last_name.data.title(),
                 "username": form.username.data,
                 "email": form.email.data,
-                "password": form.password.data
-                # Need to add icon setting!
+                "password": form.password.data,
+                "icon": form.icon.data
             }  
         user = User.query.filter_by(username = new_user_data['username']).first()
         if user and user.username != current_user.username:
