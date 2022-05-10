@@ -3,10 +3,7 @@ from flask_login import UserMixin
 from datetime import datetime as dt
 from werkzeug.security import generate_password_hash, check_password_hash
 
-pokedex = db.Table('pokedex',
-    db.Column('poketeam_id', db.Integer, db.ForeignKey('poketeam.poketeam_id'), primary_key=True),
-    db.Column('trainer_id', db.Integer, db.ForeignKey('poketrainer.trainer_id'), primary_key=True)
-)
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -17,13 +14,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String)
     trainer_since = db.Column(db.DateTime, default=dt.utcnow)
     icon = db.Column(db.String)
-    poketeams = db.relationship('PokeTeam',
-                            secondary = pokedex,
-                            primaryjoin=(pokedex.c.poketeam_id == id),
-                            backref = db.backref('user', lazy = 'dynamic')
-                        
-)
-
+    
     def __repr__(self):
         return f'<User: {self.username} | {self.id} >'    
 
@@ -47,6 +38,10 @@ class User(UserMixin, db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit() 
+        t = PokeTeam()
+        t.user_id = self.id
+        db.session.add(t)
+        db.session.commit()
 
     def get_icon_url(self):
         return f"{self.icon}"
@@ -64,28 +59,53 @@ class User(UserMixin, db.Model):
 
 class PokeTeam(db.Model):
     poketeam_id = db.Column(db.Integer, primary_key=True)
-    pokemon = db.Column(db.String)
-    hp = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    pokemon = db.relationship('Pokemon',
+                            secondary = 'pokedex',
+                            backref = 'user', lazy = 'dynamic')
 
     def __repr__(self):
         return f'<Pokedex: {self.pokedex_id} | {self.name} >'
 
     def edit_team(self, new_pokemon):
-        self.pokemon = new_pokemon
+        self.pokemon.append(new_pokemon)
 
     def save_team(self):
-        db.session.add(self)
-        db.session.commmit()
-
-    def remove_pokemon(self):
-        db.session.delete(self)
         db.session.commit()
-        
 
-class PokeTrainer(db.Model):
-    trainer_id = db.Column(db.Integer, primary_key=True)
+    def remove_pokemon(self, pokemon):
+        self.pokemon.remove(pokemon)
+        db.session.commit()
+
+class Pokemon(db.Model):
+    pokemon_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
+    bexp = db.Column(db.String)
+    shiny = db.Column(db.String)
+    ability = db.Column(db.String)
+    hp = db.Column(db.String)
+    atk = db.Column(db.String)
+    defense = db.Column(db.String)
+
+    def from_dict(self, data):
+        self.bexp = data['bexp']
+        self.name = data['name']
+        self.shiny = data['shiny']
+        self.ability = data['ability']
+        self.hp = data['hp']
+        self.atk = data['attack']
+        self.defense = data['defense']
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+
+class Pokedex(db.Model):
+    pokedex_id = db.Column(db.Integer, primary_key=True)
+    poketeam_id = db.Column(db.Integer, db.ForeignKey(PokeTeam.poketeam_id))
+    pokemon_id =  db.Column(db.Integer, db.ForeignKey('pokemon.pokemon_id'))
+        
 
 @login.user_loader
 def load_user(id):

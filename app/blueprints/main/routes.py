@@ -2,7 +2,8 @@ from flask import render_template, request
 import requests
 from app.blueprints.auth.forms import PokedexForm
 from . import bp as main
-from flask_login import login_required
+from flask_login import login_required, current_user
+from app.models import Pokemon, PokeTeam
 
 @main.route('/', methods = ['GET'])
 # @login_required
@@ -39,6 +40,21 @@ def pokedex():
             "attack": data['stats'][1]['base_stat'],
             "defense": data['stats'][0]['base_stat'],
             }
+
+        p = Pokemon.query.filter_by(name = pokemon_dict['name']).first()
+        if p:
+            pass
+        else:
+            p = Pokemon()
+            p.from_dict(pokemon_dict)
+            p.save()
+        
+        t = PokeTeam.query.filter_by(user_id = current_user.id).first()
+        t.edit_team(p)
+        t.save_team()
+
+        
+            
 
         return render_template('pokedex.html.j2', pokemon = pokemon_dict, form=form)
     return render_template('pokedex.html.j2', form=form)
