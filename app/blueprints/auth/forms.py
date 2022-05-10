@@ -8,6 +8,7 @@ from jinja2.utils import markupsafe
 class PokedexForm(FlaskForm):
     pokemon_name = StringField('Pokemon Name', validators=[DataRequired()])
     submit = SubmitField('Submit')
+    capture = SubmitField("Catch 'em!")
 
 class LoginForm(FlaskForm):
     first_name = StringField('First Name')

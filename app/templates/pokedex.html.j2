@@ -38,7 +38,7 @@
     <tr>
       <th scope="row">{{ pokemon.name }}</th>
       <td>{{ pokemon.bexp }}</td>
-      <td><img src= {{pokemon.shiny}}></td>
+      <td><img src= {{ pokemon.shiny }}></td>
       <td>{{ pokemon.ability }}</td>
       <td>{{ pokemon.hp }}</td>
       <td>{{ pokemon.attack }}</td>
@@ -46,6 +46,9 @@
     </tr> 
   </tbody>
 </table>
+<div class="pokedex-form-btn">
+       {{ form.capture(class="btn btn-warning form-control") }}
+       </div>
 {% endif %}
 
 {% endblock %}

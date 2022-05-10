@@ -31,10 +31,10 @@ def pokedex():
             return render_template('pokedex.html.j2', error = error_string, form=form)
 
         pokemon_dict = {
-            "name": data['name'],
+            "name": data['name'].capitalize(),
             "bexp" : data['base_experience'],
             "shiny": data['sprites']['front_shiny'],
-            "ability": data['abilities'][0]['ability']['name'],
+            "ability": data['abilities'][0]['ability']['name'].capitalize(),
             "hp": data['stats'][0]['base_stat'],
             "attack": data['stats'][1]['base_stat'],
             "defense": data['stats'][0]['base_stat'],
