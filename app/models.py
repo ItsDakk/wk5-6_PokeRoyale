@@ -12,6 +12,8 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String)
     trainer_since = db.Column(db.DateTime, default=dt.utcnow)
     icon = db.Column(db.String)
+    # team = db.relationship('Trainer',
+    #         primaryjoin=)
 
     def __repr__(self):
         return f'<User: {self.username} | {self.id} >'    
@@ -39,7 +41,27 @@ class User(UserMixin, db.Model):
 
     def get_icon_url(self):
         return f"{self.icon}"
+
+class Pokedex(db.Model):
+    pd_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    hp = db.Column(db.Integer)
+
+class PokeTrainer(db.Model):
+    trainer_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+
+
+    # def catch_em_all(self, pokemon):
+    #     self.poketeam.append(pokemon)
+    #     db.session.commit()
+
+class PokeTeam(db.Model):
+    pokedex_id = db.Column(db.Integer, db.ForeignKey('pokedex.pd_id'), primary_key=True)
+    trainer_id = db.Column(db.Integer, db.ForeignKey('poketrainer.user_id'), primary_key=True)
         
+
+
 
 @login.user_loader
 def load_user(id):
