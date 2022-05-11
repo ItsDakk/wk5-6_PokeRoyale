@@ -3,8 +3,6 @@ from flask_login import UserMixin
 from datetime import datetime as dt
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
-
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String)
@@ -15,6 +13,9 @@ class User(UserMixin, db.Model):
     trainer_since = db.Column(db.DateTime, default=dt.utcnow)
     icon = db.Column(db.String)
     win_loss = db.Column(db.Integer)
+    team = db.relationship('PokeTeam',
+            # secondary = 'Pokemon',
+            )
     
     def __repr__(self):
         return f'<User: {self.username} | {self.id} >'    
@@ -78,6 +79,9 @@ class PokeTeam(db.Model):
         self.pokemon.remove(pokemon)
         db.session.commit()
 
+    # def is_caught(self, pokemon_is_caught):
+    #     return self.pokemon.filter(pokemon.c.)
+
 class Pokemon(db.Model):
     pokemon_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -106,6 +110,10 @@ class Pokedex(db.Model):
     pokedex_id = db.Column(db.Integer, primary_key=True)
     poketeam_id = db.Column(db.Integer, db.ForeignKey(PokeTeam.poketeam_id))
     name =  db.Column(db.Integer, db.ForeignKey('pokemon.name'))
+
+   
+
+    
         
 
 @login.user_loader

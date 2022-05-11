@@ -1,6 +1,6 @@
-from flask import render_template, request
+from flask import render_template, request, flash, redirect, url_for
 import requests
-from app.blueprints.auth.forms import PokedexForm
+from app.blueprints.auth.forms import PokedexForm, CatchEm
 from . import bp as main
 from flask_login import login_required, current_user
 from app.models import Pokemon, PokeTeam
@@ -18,6 +18,7 @@ def poketeam():
 def pokedex():
     # @login_required
     form = PokedexForm()
+    
     if request.method == 'POST' and form.validate_on_submit():
         pokemon_name = form.pokemon_name.data.lower()
 
@@ -46,24 +47,30 @@ def pokedex():
             pass
         else:
             p = Pokemon()
-        if request.method == 'POST':
-         p.from_dict(pokemon_dict)
-         p.save()
-        
-        t = PokeTeam.query.filter_by(user_id = current_user.id).first()
-        t.edit_team(p)
-        t.save_team()
+            p.from_dict(pokemon_dict)
+            p.save()
 
-        
-            
-
-        return render_template('pokedex.html.j2', pokemon = pokemon_dict, form=form)
+        return render_template('pokedex.html.j2', pokemon = pokemon_dict, form=form, pokemon_id = p.pokemon_id)
     return render_template('pokedex.html.j2', form=form)
 
+@main.route('/catch/<int:id>', methods = ['GET', 'POST'])
+def catch(id):
+    
+    flash('Captured!', 'success')
+        
+    p = Pokemon.query.filter_by(pokemon_id = id).first()
+    t = PokeTeam.query.filter_by(user_id = current_user.id).first()
+    t.edit_team(p)
+    t.save_team()
+
+    return redirect(url_for('main.pokedex'))
+
 @main.route('/pokeroyale', methods = ['GET', 'POST'])
+# @login_required
 def pokeroyale():
-
-
+    pass
     
     return render_template('pokeroyale.html.j2')
+
+
 

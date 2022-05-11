@@ -2,13 +2,16 @@ from flask_wtf import FlaskForm
 from wtforms import SubmitField, StringField, PasswordField, RadioField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from app.models import User
-import random
 from jinja2.utils import markupsafe
 
 class PokedexForm(FlaskForm):
     pokemon_name = StringField('Pokemon Name', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+class CatchEm(FlaskForm):
     capture = SubmitField("Catch 'em!")
+    release = SubmitField("Release")
+
 
 class LoginForm(FlaskForm):
     first_name = StringField('First Name')
