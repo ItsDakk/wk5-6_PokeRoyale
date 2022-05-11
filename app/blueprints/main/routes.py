@@ -46,8 +46,9 @@ def pokedex():
             pass
         else:
             p = Pokemon()
-            p.from_dict(pokemon_dict)
-            p.save()
+        if request.method == 'POST':
+         p.from_dict(pokemon_dict)
+         p.save()
         
         t = PokeTeam.query.filter_by(user_id = current_user.id).first()
         t.edit_team(p)
@@ -59,5 +60,10 @@ def pokedex():
         return render_template('pokedex.html.j2', pokemon = pokemon_dict, form=form)
     return render_template('pokedex.html.j2', form=form)
 
+@main.route('/pokeroyale', methods = ['GET', 'POST'])
+def pokeroyale():
 
+
+    
+    return render_template('pokeroyale.html.j2')
 

@@ -14,6 +14,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String)
     trainer_since = db.Column(db.DateTime, default=dt.utcnow)
     icon = db.Column(db.String)
+    win_loss = db.Column(db.Integer)
     
     def __repr__(self):
         return f'<User: {self.username} | {self.id} >'    
@@ -104,7 +105,7 @@ class Pokemon(db.Model):
 class Pokedex(db.Model):
     pokedex_id = db.Column(db.Integer, primary_key=True)
     poketeam_id = db.Column(db.Integer, db.ForeignKey(PokeTeam.poketeam_id))
-    pokemon_id =  db.Column(db.Integer, db.ForeignKey('pokemon.pokemon_id'))
+    name =  db.Column(db.Integer, db.ForeignKey('pokemon.name'))
         
 
 @login.user_loader

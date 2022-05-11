@@ -24,7 +24,6 @@ def login():
 def register():
     form = RegisterForm()
     if request.method =='POST' and form.validate_on_submit():
-        print('TEst')
         try:
             new_user_data = {
                 "first_name": form.first_name.data.title(),
