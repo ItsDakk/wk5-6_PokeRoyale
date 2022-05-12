@@ -14,9 +14,11 @@ def index():
 @main.route('/poketeam', methods = ['GET', 'POST'])
 def poketeam():
     team = current_user.team.all()
+    # p = Pokemon.query.filter_by(pokemon_id = id).first()
+    # current_user.remove(p)
+    # current_user.save()
+    # flash('Pokemon released!', 'warning')
     
-
-
 
 
     return render_template('poketeam.html.j2', team = team)
