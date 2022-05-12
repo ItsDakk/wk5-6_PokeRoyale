@@ -4,21 +4,36 @@
 {% endblock %}
 
 {% block content %}
+
   <h1>Here is your <span class="text-warning">PokéTeam!</span></h1>
 
   {% for poke in team %}
   <div class="card-group justify-content-center">
-    <div class="card border-warning text-white bg-danger mb-3" style="max-width: 18rem;">
-      <img src="..." class="card-img-top" alt="...">
+    <div class="card text-warning bg-danger mb-3" style="max-width: 18rem;">
+      <img src="{{ poke.shiny }}"  class="card-img-top" alt="Picture of Pokemon" >
       <div class="card-body">
         <h5 class="card-title">{{ poke.name }}</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
-      <div class="card-footer">
-        <small class="text-muted">Last updated 3 mins ago</small>
+          <p>
+            <button class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Stats</button>
+          </p>
+            <div class="row">
+              <div class="col">
+                <div class="collapse multi-collapse" id="poke_stats">
+                  <ul class="list-group list-group-flush">
+                    <div class="card card-body">
+                      <li class="list-group-item">Base Exp: {{ poke.bexp }}</li>
+                      <li class="list-group-item">Ability: {{ poke.ability }}</li>
+                      <li class="list-group-item">Health Points: {{ poke.hp }}</li>
+                      <li class="list-group-item">Attack: {{ poke.attack }}</li>
+                      <li class="list-group-item">Defense: {{ poke.defense }}</li>
+                  </ul>
+                    </div>
+                </div>
+            </div>
+          </div>
       </div>
     </div>
-  </div>
+
   {% endfor %}
 
 {% endblock %}

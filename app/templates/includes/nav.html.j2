@@ -18,11 +18,14 @@
 <nav class="navbar navbar-dark bg-danger">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar"><img src="{{ url_for('static', filename='images/1068729.png') }}" height="35px">
+      <span class="navbar"><img src="{{ url_for('static', filename='images/icons8-down-arrow-48.png') }}" height="35px">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      
+      
       {% if current_user.is_authenticated %}
       <ul class="navbar-nav ms-auto align-items-center">
   <a href="#">
-    <img src="{{ current_user.get_icon_url() }}" style="height:50px;">
+    <a class="nav-link" href="{{url_for('auth.register')}}"><p class="text-dark"><img src="{{ current_user.get_icon_url() }}" style="height:50px;"></p></a>
   </a>
   {% endif %}</span>
 </nav>

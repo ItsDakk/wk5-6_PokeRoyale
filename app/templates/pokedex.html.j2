@@ -37,15 +37,15 @@
       <li class="list-group-item">Attack: {{ pokemon.attack }}</li>
       <li class="list-group-item">Defense: {{ pokemon.defense }}</li>
     </ul>
-  <div class="card-body">
+  <div class="card-body text-center">
     <a href="{{ url_for('main.catch', id = pokemon_id) }}" class="card-link">
         {% if pokemon.is_caught %}
       <div class="pokedex-form-btn">
-        <button class="btn btn-warning">Capture</button>
+        <button class="btn btn-warning"><img src="{{ url_for('static', filename='images/icons8-open-pokeball-48.png') }}" height="35px">Release</button>
       </div>
         {% else %}
       <div class="pokedex-form-btn">
-        <button class="btn btn-warning">Capture</button>
+        <button class="btn btn-success"><img src="{{ url_for('static', filename='images/icons8-pokeball-48.png') }}" height="30px">&nbsp; Capture</button>
       </div>
         {% endif %}
     </a>
