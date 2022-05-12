@@ -39,7 +39,7 @@
     </ul>
   <div class="card-body text-center">
     <a href="{{ url_for('main.catch', id = pokemon_id) }}" class="card-link">
-        {% if pokemon.is_caught %}
+        {% if is_caught %}
       <div class="pokedex-form-btn">
         <button class="btn btn-warning"><img src="{{ url_for('static', filename='images/icons8-open-pokeball-48.png') }}" height="35px">Release</button>
       </div>

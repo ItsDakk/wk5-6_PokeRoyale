@@ -1,3 +1,4 @@
+import re
 from flask import render_template, request, flash, redirect, url_for
 import requests
 from app.blueprints.auth.forms import PokedexForm
@@ -49,6 +50,11 @@ def pokedex():
             }
 
         p = Pokemon.query.filter_by(name = pokemon_dict['name']).first()
+        if p in current_user.team.all():
+            is_caught = True;
+        else:
+            is_caught = False;
+
         if p:
             pass
         else:
@@ -56,12 +62,14 @@ def pokedex():
             p.from_dict(pokemon_dict)
             p.save()
 
-        return render_template('pokedex.html.j2', pokemon = pokemon_dict, form=form, pokemon_id = p.pokemon_id)
+        return render_template('pokedex.html.j2', pokemon = pokemon_dict, form=form, pokemon_id = p.pokemon_id, is_caught = is_caught)
     return render_template('pokedex.html.j2', form=form)
 
 @main.route('/catch/<int:id>', methods = ['GET', 'POST'])
 def catch(id):
-    
+    if len(current_user.team.all()) == 5:
+        flash('Your team is full', 'danger')
+        return redirect(url_for('main.pokedex'))
     flash('Captured!', 'success')
         
     p = Pokemon.query.filter_by(pokemon_id = id).first()
