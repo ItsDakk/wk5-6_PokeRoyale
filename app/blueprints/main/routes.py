@@ -78,6 +78,15 @@ def catch(id):
 
     return redirect(url_for('main.pokedex'))
 
+@main.route('/release/<int:id>', methods = ['GET', 'POST'])
+def release(id):
+        p = Pokemon.query.filter_by(pokemon_id = id).first()
+        current_user.remove(p)
+        current_user.save()
+        flash('Pokemon released!', 'warning')
+
+        return redirect(url_for('main.pokedex'))
+
 @main.route('/pokeroyale', methods = ['GET', 'POST'])
 # @login_required
 def pokeroyale():

@@ -51,6 +51,9 @@ class User(UserMixin, db.Model):
     def is_captured(self, pokemon):
         return self.team.filter_by(pokemon).first()
 
+    def remove(self, pokemon):
+        self.team.remove(pokemon)
+
     # def full_team(self, pokemon_team_check):
     #     return self.poketeams.filter(poketeam.c.pokedex_id == pokemon_team_check.id).count() == 5
 
@@ -70,12 +73,7 @@ class PokeTeam(db.Model):
     # def save_team(self):
     #     db.session.commit()
 
-    # def remove_pokemon(self, pokemon):
-    #     self.team.remove(pokemon)
-    #     db.session.commit()
-
-    def is_caught(self, pokemon):
-        return self.pokemon.filter(pokemon.c.team)
+    
 
 class Pokemon(db.Model):
     pokemon_id = db.Column(db.Integer, primary_key=True)
