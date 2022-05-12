@@ -13,9 +13,9 @@ class User(UserMixin, db.Model):
     trainer_since = db.Column(db.DateTime, default=dt.utcnow)
     icon = db.Column(db.String)
     win_loss = db.Column(db.Integer)
-    team = db.relationship('PokeTeam',
-            # secondary = 'Pokemon',
-            )
+    team = db.relationship('Pokemon',
+                            secondary = 'poke_team',
+                            backref = 'users', lazy = 'dynamic')
     
     def __repr__(self):
         return f'<User: {self.username} | {self.id} >'    
@@ -40,13 +40,13 @@ class User(UserMixin, db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit() 
-        t = PokeTeam()
-        t.user_id = self.id
-        db.session.add(t)
-        db.session.commit()
+        
 
     def get_icon_url(self):
         return f"{self.icon}"
+
+    def edit_team(self, new_pokemon):
+        self.team.append(new_pokemon)
 
     # def is_captured(self, pokemon_caught):
     #     return self.poketeams.filter(poketeam.c.pokedex_id == pokemon_caught.id)
@@ -60,27 +60,24 @@ class User(UserMixin, db.Model):
     #         db.session.commit() 
 
 class PokeTeam(db.Model):
-    poketeam_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    pokemon = db.relationship('Pokemon',
-                            secondary = 'pokedex',
-                            backref = 'user', lazy = 'dynamic')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    pokemon = db.Column(db.Integer, db.ForeignKey('pokemon.pokemon_id'), primary_key=True)
+    
 
-    def __repr__(self):
-        return f'<Pokedex: {self.pokedex_id} | {self.name} >'
+    # def __repr__(self):
+    #     return f'<Pokedex: {self.pokedex_id} | {self.name} >'
 
-    def edit_team(self, new_pokemon):
-        self.pokemon.append(new_pokemon)
+    
 
-    def save_team(self):
-        db.session.commit()
+    # def save_team(self):
+    #     db.session.commit()
 
-    def remove_pokemon(self, pokemon):
-        self.pokemon.remove(pokemon)
-        db.session.commit()
+    # def remove_pokemon(self, pokemon):
+    #     self.team.remove(pokemon)
+    #     db.session.commit()
 
-    # def is_caught(self, pokemon_is_caught):
-    #     return self.pokemon.filter(pokemon.c.)
+    # # def is_caught(self, pokemon_is_caught):
+    # #     return self.pokemon.filter(pokemon.c.)
 
 class Pokemon(db.Model):
     pokemon_id = db.Column(db.Integer, primary_key=True)
@@ -104,15 +101,6 @@ class Pokemon(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
-
-
-class Pokedex(db.Model):
-    pokedex_id = db.Column(db.Integer, primary_key=True)
-    poketeam_id = db.Column(db.Integer, db.ForeignKey(PokeTeam.poketeam_id))
-    name =  db.Column(db.Integer, db.ForeignKey('pokemon.name'))
-
-   
-
     
         
 

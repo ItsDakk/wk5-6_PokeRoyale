@@ -1,6 +1,6 @@
 from flask import render_template, request, flash, redirect, url_for
 import requests
-from app.blueprints.auth.forms import PokedexForm, CatchEm
+from app.blueprints.auth.forms import PokedexForm
 from . import bp as main
 from flask_login import login_required, current_user
 from app.models import Pokemon, PokeTeam
@@ -12,7 +12,13 @@ def index():
 
 @main.route('/poketeam', methods = ['GET', 'POST'])
 def poketeam():
-    return render_template('poketeam.html.j2')
+    team = current_user.team.all()
+    
+
+
+
+
+    return render_template('poketeam.html.j2', team = team)
 
 @main.route('/pokedex', methods = ['GET', 'POST'])
 def pokedex():
@@ -59,9 +65,8 @@ def catch(id):
     flash('Captured!', 'success')
         
     p = Pokemon.query.filter_by(pokemon_id = id).first()
-    t = PokeTeam.query.filter_by(user_id = current_user.id).first()
-    t.edit_team(p)
-    t.save_team()
+    current_user.edit_team(p)
+    current_user.save()
 
     return redirect(url_for('main.pokedex'))
 
